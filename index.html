@@ -1,1547 +1,905 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigitalCraft - Premium SEO & Web Design</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Animated grid background */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            z-index: -2;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Floating geometric particles */
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.4);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: floatParticle 8s ease-in-out infinite;
-        }
-
-        .particle:nth-child(3n) {
-            background: rgba(220, 38, 38, 0.6);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        .particle:nth-child(5n) {
-            background: rgba(255, 255, 255, 0.3);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            width: 6px;
-            height: 6px;
-        }
-
-        @keyframes floatParticle {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 40px;
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        nav.scrolled {
-            background: rgba(0, 0, 0, 0.8);
-            border-color: rgba(220, 38, 38, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            letter-spacing: -1px;
-        }
-
-        .logo-placeholder {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #dc2626, #ffffff);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 900;
-            color: #000;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-placeholder::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: logoShine 3s ease-in-out infinite;
-        }
-
-        @keyframes logoShine {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 35px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            position: relative;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-links a:hover {
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #dc2626;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 1000px;
-            height: 1000px;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            animation: heroGlow 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes heroGlow {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
-        }
-
-        .hero-content {
-            max-width: 1000px;
-            z-index: 2;
-            animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 20px;
-            color: #dc2626;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 8rem);
-            font-weight: 900;
-            margin-bottom: 30px;
-            color: #ffffff;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-        }
-
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, #dc2626, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-        }
-
-        .hero h1 .outline {
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
-        }
-
-        .hero p {
-            font-size: 24px;
-            margin-bottom: 60px;
-            color: rgba(255, 255, 255, 0.7);
-            animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 20px 40px;
-            background: #dc2626;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            background: #b91c1c;
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4);
-        }
-
-        .secondary-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 20px 40px;
-            background: transparent;
-            color: white;
-            text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .secondary-button:hover {
-            border-color: #dc2626;
-            background: rgba(220, 38, 38, 0.1);
-            transform: translateY(-4px);
-        }
-
-        /* Geometric floating elements */
-        .floating-geo {
-            position: absolute;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .floating-geo:nth-child(1) {
-            top: 15%;
-            left: 10%;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, #dc2626, transparent);
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            animation: floatGeo 12s ease-in-out infinite;
-        }
-
-        .floating-geo:nth-child(2) {
-            top: 70%;
-            right: 15%;
-            width: 80px;
-            height: 80px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            animation: floatGeo 15s ease-in-out infinite reverse;
-        }
-
-        .floating-geo:nth-child(3) {
-            bottom: 20%;
-            left: 20%;
-            width: 60px;
-            height: 60px;
-            background: #ffffff;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            animation: floatGeo 10s ease-in-out infinite;
-        }
-
-        @keyframes floatGeo {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-40px) rotate(180deg); }
-        }
-
-        /* Services Section */
-        .services {
-            padding: 200px 50px;
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 120px;
-        }
-
-        .section-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 20px;
-            color: #dc2626;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: clamp(3rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 30px;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-        }
-
-        .section-subtitle {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 50px;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #dc2626, transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .service-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(50%, -50%);
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .service-card:hover::before {
-            transform: translateX(0);
-        }
-
-        .service-card:hover::after {
-            opacity: 1;
-        }
-
-        .service-card:hover {
-            transform: translateY(-20px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(220, 38, 38, 0.2);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
-        }
-
-        .service-icon {
-            font-size: 60px;
-            margin-bottom: 40px;
-            background: linear-gradient(135deg, #dc2626, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .service-card h3 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #ffffff;
-            letter-spacing: -0.01em;
-        }
-
-        .service-card p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 18px;
-            line-height: 1.7;
-        }
-
-        /* Team Section */
-        .team {
-            padding: 200px 50px;
-            background: rgba(5, 5, 5, 0.5);
-            position: relative;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .team-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .team-card:hover::before {
-            opacity: 1;
-        }
-
-        .team-card:hover {
-            transform: translateY(-20px);
-            border-color: rgba(220, 38, 38, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #dc2626, #ffffff);
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: 900;
-            color: #000;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-avatar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: avatarShine 3s ease-in-out infinite;
-        }
-
-        @keyframes avatarShine {
-            0%, 100% { left: -100%; }
-            50% { left: 100%; }
-        }
-
-        .team-card h3 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .team-role {
-            color: #dc2626;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .team-card p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 200px 50px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 50px;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        .project-card:hover {
-            transform: translateY(-20px);
-            border-color: rgba(220, 38, 38, 0.3);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-image {
-            height: 300px;
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(255, 255, 255, 0.1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            color: rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .project-card:hover .project-image::before {
-            left: 100%;
-        }
-
-        .project-content {
-            padding: 40px;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .project-tag {
-            padding: 6px 16px;
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 20px;
-            color: #dc2626;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .project-card h3 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        .project-card p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: #dc2626;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .project-link:hover {
-            transform: translateX(10px);
-        }
-
-        /* About Section */
-        .about {
-            padding: 200px 50px;
-            background: rgba(5, 5, 5, 0.5);
-            position: relative;
-        }
-
-        .about-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            align-items: center;
-        }
-
-        .about-text h2 {
-            font-size: clamp(3rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 40px;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-        }
-
-        .about-text p {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 40px;
-            line-height: 1.7;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            margin-top: 60px;
-        }
-
-        .stat {
-            text-align: center;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #dc2626;
-            transform: translateX(-100%);
-            transition: transform 0.4s ease;
-        }
-
-        .stat:hover::before {
-            transform: translateX(0);
-        }
-
-        .stat:hover {
-            border-color: rgba(220, 38, 38, 0.3);
-            background: rgba(220, 38, 38, 0.05);
-            transform: translateY(-10px);
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 900;
-            color: #dc2626;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .about-visual {
-            position: relative;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .about-visual::before {
-            content: '⚡';
-            font-size: 200px;
-            animation: pulse 3s ease-in-out infinite;
-            background: linear-gradient(135deg, #dc2626, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 200px 50px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            align-items: start;
-        }
-
-        .contact-info h2 {
-            font-size: clamp(3rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 40px;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-        }
-
-        .contact-info p {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 50px;
-            line-height: 1.7;
-        }
-
-        .contact-form {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 60px;
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-form::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #dc2626, transparent);
-        }
-
-        .form-group {
-            margin-bottom: 35px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 12px;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 20px 25px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #dc2626;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 25px;
-            background: #dc2626;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
-            background: #b91c1c;
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4);
-        }
-
-        /* Success message */
-        .success-message {
-            display: none;
-            padding: 25px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 12px;
-            color: #22c55e;
-            text-align: center;
-            margin-top: 25px;
-            font-weight: 600;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(5, 5, 5, 0.8);
-            padding: 80px 50px 40px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #dc2626, transparent);
-        }
-
-        footer p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-            margin-top: 40px;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .nav-container {
-                gap: 30px;
-            }
-
-            .nav-links {
-                gap: 25px;
-            }
-
-            .about-container,
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .team-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                transform: none;
-                padding: 15px 25px;
-                border-radius: 25px;
-            }
-
-            .nav-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .nav-links {
-                gap: 20px;
-            }
-
-            .hero, .services, .team, .projects, .about, .contact {
-                padding: 120px 20px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form {
-                padding: 40px 30px;
-            }
-
-            .service-card,
-            .team-card,
-            .project-card {
-                padding: 30px;
-            }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #dc2626, #b91c1c);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #b91c1c, #991b1b);
-        }
-
-        /* Glow effects */
-        .glow-red {
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
-        }
-
-        /* Selection color */
-        ::selection {
-            background: rgba(220, 38, 38, 0.3);
-            color: #ffffff;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Envelope Calculator</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 1rem;
+      margin: 0;
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .top-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .unit-toggle-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .unit-toggle {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    
+    .unit-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .unit-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .unit-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .unit-slider {
+      background-color: #17a2b8;
+    }
+    
+    input:checked + .unit-slider:before {
+      transform: translateX(26px);
+    }
+    
+    .unit-label {
+      font-weight: 600;
+      color: #495057;
+      font-size: 1rem;
+    }
+    
+    .unit-label.active {
+      color: #17a2b8;
+    }
+    
+    .controls-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    
+    .slider-container { 
+      background: #f8f9fa;
+      padding: 1.25rem;
+      border-radius: 12px;
+      border-left: 4px solid #17a2b8;
+    }
+    
+    label { 
+      display: block;
+      font-size: 0.95rem; 
+      font-weight: 600;
+      color: #7c646a;
+      margin-bottom: 0.5rem;
+    }
+    
+    .slider-container input { 
+      width: 100%; 
+      height: 6px;
+      background: #dee2e6;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      margin: 0.5rem 0;
+    }
+    
+    .slider-container input::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #17a2b8;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    
+    .slider-container input::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #17a2b8;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    
+    .value-display { 
+      font-family: 'Courier New', monospace;
+      color: #17a2b8;
+      font-weight: bold;
+      font-size: 1rem;
+      float: right;
+    }
+    
+    .outputs-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    
+    .output-card {
+      background: #f7b0aa;
+      color: white;
+      padding: 1.25rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .output-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.8rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .output-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .visual-section {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .visual-section h3 {
+      margin: 0 0 1rem 0;
+      color: #495057;
+      font-size: 1.1rem;
+    }
+    
+    #svgCanvas { 
+      border: none;
+      display: block; 
+      margin: 1rem auto;
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .legend {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #6c757d;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .legend span {
+      white-space: nowrap;
+    }
+
+    #warningMessage {
+      display: none;
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      color: #856404;
+      font-size: 0.9rem;
+    }
+    
+    /* Desktop optimizations */
+    @media (min-width: 1025px) {
+      body {
+        padding: 2rem;
+      }
+      
+      .container {
+        padding: 2rem;
+        gap: 3rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      .top-section {
+        gap: 2rem;
+      }
+      
+      .controls-section {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .slider-container {
+        padding: 1.5rem;
+      }
+      
+      .outputs-section {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .output-card {
+        padding: 1.5rem;
+      }
+      
+      .output-card h3 {
+        font-size: 0.9rem;
+      }
+      
+      .output-value {
+        font-size: 1.4rem;
+      }
+      
+      .visual-section {
+        padding: 2rem;
+      }
+      
+      .legend {
+        font-size: 0.9rem;
+      }
+      
+      .value-display {
+        font-size: 1.1rem;
+      }
+      
+      label {
+        font-size: 1rem;
+      }
+    }
+    
+    /* Tablet optimizations */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .controls-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      
+      .outputs-section {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 767px) {
+      body {
+        padding: 0.5rem;
+      }
+      
+      .container {
+        padding: 1rem;
+        gap: 1.5rem;
+        border-radius: 12px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .unit-toggle-container {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .controls-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .slider-container {
+        padding: 1rem;
+      }
+      
+      .outputs-section {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      
+      .output-card {
+        padding: 1rem;
+      }
+      
+      .output-card h3 {
+        font-size: 0.75rem;
+      }
+      
+      .output-value {
+        font-size: 1.1rem;
+      }
+      
+      .visual-section {
+        padding: 1rem;
+      }
+      
+      .legend {
+        font-size: 0.8rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      
+      .value-display {
+        font-size: 0.95rem;
+      }
+      
+      label {
+        font-size: 0.9rem;
+      }
+      
+      #warningMessage {
+        font-size: 0.85rem;
+        padding: 0.75rem;
+      }
+    }
+    
+    /* Very small mobile devices */
+    @media (max-width: 480px) {
+      body {
+        padding: 0.25rem;
+      }
+      
+      .container {
+        padding: 0.75rem;
+        gap: 1.25rem;
+        border-radius: 8px;
+      }
+      
+      h1 {
+        font-size: 1.3rem;
+      }
+      
+      .slider-container {
+        padding: 0.75rem;
+      }
+      
+      .output-card {
+        padding: 0.75rem;
+      }
+      
+      .visual-section {
+        padding: 0.75rem;
+      }
+      
+      .legend {
+        font-size: 0.75rem;
+      }
+      
+      .value-display {
+        font-size: 0.9rem;
+      }
+      
+      label {
+        font-size: 0.85rem;
+      }
+    }
+    
+    /* Landscape mobile orientation */
+    @media (max-width: 767px) and (orientation: landscape) {
+      .outputs-section {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+      }
+      
+      .controls-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .visual-section {
+        padding: 1rem;
+      }
+      
+      #svgCanvas {
+        max-height: 200px;
+      }
+    }
+    
+    /* Touch improvements for mobile */
+    @media (max-width: 767px) {
+      .slider-container input {
+        height: 8px;
+        margin: 0.75rem 0;
+      }
+      
+      .slider-container input::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .slider-container input::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Animated grid background -->
-    <div class="grid-bg"></div>
-    
-    <!-- Background particles -->
-    <div class="bg-particles" id="particles"></div>
+  <div class="container">
+    <!-- Top Section -->
+    <div class="top-section">
+      <h1><span style="color:#f7b0aa">ENVELOPE</span> <span style="color: #7c646a !important;">CALCULATOR </span></h1>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <div class="logo-placeholder">DC</div>
-                DigitalCraft
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+      <!-- Unit Toggle -->
+      <div class="unit-toggle-container">
+        <span class="unit-label" id="inchesLabel">Inches</span>
+        <label class="unit-toggle">
+          <input type="checkbox" id="unitToggle">
+          <span class="unit-slider"></span>
+        </label>
+        <span class="unit-label" id="mmLabel">Millimeters</span>
+      </div>
+
+      <div class="controls-section">
+        <div class="slider-container">
+          <label for="cardWidth">Card Width: <span id="cardWidthVal" class="value-display"></span></label>
+          <input type="range" id="cardWidth" min="0.125" max="10" step="0.125" value="6">
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="floating-geo"></div>
-        <div class="floating-geo"></div>
-        <div class="floating-geo"></div>
         
-        <div class="hero-content">
-            <div class="hero-badge">Next Generation Digital Agency</div>
-            <h1>
-                Digital <span class="highlight">Future</span><br>
-                <span class="outline">Redefined</span>
-            </h1>
-            <p>We craft stunning websites and dominate search engines with cutting-edge SEO strategies that drive real results for ambitious businesses ready to conquer the digital landscape</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="cta-button">
-                    Start Project
-                    <span>→</span>
-                </a>
-                <a href="#projects" class="secondary-button">
-                    View Work
-                    <span>↗</span>
-                </a>
-            </div>
+        <div class="slider-container">
+          <label for="cardHeight">Card Height: <span id="cardHeightVal" class="value-display"></span></label>
+          <input type="range" id="cardHeight" min="0.125" max="10" step="0.125" value="4">
         </div>
-    </section>
+        
+        <div class="slider-container">
+          <label for="padding">Card Padding: <span id="paddingVal" class="value-display"></span></label>
+          <input type="range" id="padding" min="0" max="0.5" step="0.125" value="0.25">
+        </div>
+      </div>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <div class="section-badge">What We Do</div>
-            <h2 class="section-title">Our Services</h2>
-            <p class="section-subtitle">We deliver premium digital solutions that set you apart from the competition and drive measurable business growth through innovative technology</p>
+      <div class="outputs-section">
+        <div class="output-card">
+          <h3>Paper Size</h3>
+          <div style="color: #7c646a;" id="paperSizeVal" class="output-value"></div>
         </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🚀</div>
-                <h3>Advanced SEO</h3>
-                <p>Dominate search results with our data-driven SEO strategies. We use cutting-edge techniques and AI-powered tools to boost your rankings and drive organic traffic that converts into revenue.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🎨</div>
-                <h3>Futuristic Web Design</h3>
-                <p>Create stunning, conversion-focused websites that captivate your audience. Our designs are modern, responsive, and optimized for maximum user engagement with next-gen aesthetics.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>Performance Optimization</h3>
-                <p>Lightning-fast websites that rank higher and convert better. We optimize every aspect of your site using advanced techniques for unparalleled speed and performance.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🤖</div>
-                <h3>AI Integration</h3>
-                <p>Harness the power of artificial intelligence to enhance user experience and automate processes. We integrate cutting-edge AI solutions that give you a competitive edge.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <h3>Data Analytics</h3>
-                <p>Data-driven insights that fuel exponential growth. Track your success with comprehensive analytics and predictive modeling for strategic decision making.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🛡️</div>
-                <h3>Cyber Security</h3>
-                <p>Enterprise-grade security solutions that protect your digital assets. Our advanced security protocols ensure your website stays secure against all threats.</p>
-            </div>
+        <div class="output-card">
+          <h3>Start Number</h3>
+          <div style="color: #7c646a;" id="alignmentVal" class="output-value"></div>
         </div>
-    </section>
+        <div class="output-card">
+          <h3>Liner Size</h3>
+          <div style="color: #7c646a;" id="cornerSizeVal" class="output-value"></div>
+        </div>
+      </div>
 
-    <!-- Team Section -->
-    <section class="team" id="team">
-        <div class="section-header">
-            <div class="section-badge">Our Experts</div>
-            <h2 class="section-title">Meet The Team</h2>
-            <p class="section-subtitle">A collective of digital visionaries, creative minds, and technical experts dedicated to pushing the boundaries of what's possible</p>
-        </div>
-        <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar">AJ</div>
-                <h3>Alex Johnson</h3>
-                <div class="team-role">Creative Director</div>
-                <p>Visionary designer with 10+ years crafting award-winning digital experiences. Specializes in brand identity and user-centered design that converts.</p>
-            </div>
-            <div class="team-card">
-                <div class="team-avatar">SM</div>
-                <h3>Sarah Miller</h3>
-                <div class="team-role">SEO Strategist</div>
-                <p>Data-driven SEO expert who has helped 200+ businesses dominate search results. Masters both technical SEO and content strategy for maximum impact.</p>
-            </div>
-            <div class="team-card">
-                <div class="team-avatar">MC</div>
-                <h3>Mike Chen</h3>
-                <div class="team-role">Lead Developer</div>
-                <p>Full-stack developer and performance optimization specialist. Builds lightning-fast, scalable websites using cutting-edge technologies and best practices.</p>
-            </div>
-            <div class="team-card">
-                <div class="team-avatar">ER</div>
-                <h3>Emma Rodriguez</h3>
-                <div class="team-role">UX Researcher</div>
-                <p>User experience researcher who combines psychology with data to create interfaces that users love. Focuses on conversion optimization and usability.</p>
-            </div>
-        </div>
-    </section>
+      <div id="warningMessage"></div>
+    </div>
+    
+    <!-- Visual Section Below -->
+    <div class="visual-section">
+      <svg id="svgCanvas"></svg>
+      <div class="legend">
+        <span><span style="color: #17a2b8;">■</span> Card Area</span>
+        <span><span style="color: #efdac8;">■</span> Paper Boundary</span>
+        <span><span style="color: #28a745;">- -</span> Padding Zone</span>
+      </div>
+    </div>
+  </div>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="section-header">
-            <div class="section-badge">Our Work</div>
-            <h2 class="section-title">Recent Projects</h2>
-            <p class="section-subtitle">Discover how we've transformed businesses with innovative digital solutions that drive real results and exceed expectations</p>
-        </div>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image">🏢</div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="project-tag">Web Design</span>
-                        <span class="project-tag">SEO</span>
-                    </div>
-                    <h3>TechCorp Enterprise</h3>
-                    <p>Complete digital transformation for a Fortune 500 tech company. Redesigned their entire web presence and implemented advanced SEO strategies resulting in 300% traffic increase.</p>
-                    <a href="#" class="project-link">
-                        View Case Study →
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🛍️</div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="project-tag">E-commerce</span>
-                        <span class="project-tag">Performance</span>
-                    </div>
-                    <h3>LuxuryStyle Fashion</h3>
-                    <p>High-end e-commerce platform with AI-powered personalization. Achieved 250% increase in conversions and 40% boost in average order value through strategic optimization.</p>
-                    <a href="#" class="project-link">
-                        View Case Study →
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🏥</div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="project-tag">Healthcare</span>
-                        <span class="project-tag">UX Design</span>
-                    </div>
-                    <h3>MedCare Solutions</h3>
-                    <p>Revolutionary healthcare platform focusing on patient experience and accessibility. Streamlined appointment booking resulted in 180% increase in online consultations.</p>
-                    <a href="#" class="project-link">
-                        View Case Study →
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🚗</div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="project-tag">Automotive</span>
-                        <span class="project-tag">Mobile First</span>
-                    </div>
-                    <h3>AutoDrive Dealership</h3>
-                    <p>Next-generation automotive website with virtual showroom and AI chat assistance. Mobile-first approach led to 320% increase in mobile conversions and test drive bookings.</p>
-                    <a href="#" class="project-link">
-                        View Case Study →
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <script>
+    (function(){
+      const defaults={cardWidth:18,cardHeight:10,padding:0.5};
+      const base=2.65285143, scale=48;
+      let isMetric = false; // Track current unit system
+      
+      function gcd(a,b){ return b?gcd(b,a%b):a; }
+      
+      function formatInches(val){
+        const rounded=Math.round(val*8)/8;
+        const whole=Math.floor(rounded), frac=rounded-whole;
+        const num=Math.round(frac*8), den=8;
+        if(num===0) return whole + '"';
+        const g=gcd(num,den);
+        return (whole>0?whole+' ':'') + (num/g) + '/' + (den/g) + '"';
+      }
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="about-container">
-            <div class="about-text">
-                <div class="section-badge">Why Choose Us</div>
-                <h2>Digital Excellence Delivered</h2>
-                <p>We're not just another digital agency. We're your partners in digital transformation, combining creativity with cutting-edge technology to deliver results that exceed expectations and drive exponential business growth.</p>
-                <p>Our team of experts specializes in creating high-performance websites and implementing SEO strategies that generate measurable ROI. We believe in the power of innovation paired with strategic optimization to create digital experiences that convert and inspire.</p>
-                
-                <div class="stats">
-                    <div class="stat">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">Projects Completed</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">Client Satisfaction</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">350%</span>
-                        <span class="stat-label">Average Growth</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">Premium Support</span>
-                    </div>
-                </div>
-            </div>
-            <div class="about-visual"></div>
-        </div>
-    </section>
+      function formatMm(val){
+        const mm = val * 25.4; // Convert inches to mm
+        return Math.round(mm * 10) / 10 + ' mm'; // Round to 1 decimal place
+      }
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="section-header">
-            <div class="section-badge">Get In Touch</div>
-            <h2 class="section-title">Let's Create The Future</h2>
-        </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Ready to Transform?</h2>
-                <p>Transform your digital presence with our expert team of visionaries and technical specialists. We're here to help you achieve unprecedented growth and exceed every expectation.</p>
-                <p>Fill out the form and we'll get back to you within 24 hours with a comprehensive proposal tailored specifically to your business needs and ambitious goals.</p>
-            </div>
-            <form class="contact-form" id="contactForm">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="service">Service Needed</label>
-                    <select id="service" name="service" required>
-                        <option value="">Select a service</option>
-                        <option value="seo">Advanced SEO</option>
-                        <option value="web-design">Futuristic Web Design</option>
-                        <option value="both">SEO + Web Design</option>
-                        <option value="ai-integration">AI Integration</option>
-                        <option value="performance">Performance Optimization</option>
-                        <option value="consultation">Strategic Consultation</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="budget">Investment Range</label>
-                    <select id="budget" name="budget">
-                        <option value="">Select investment range</option>
-                        <option value="10k-25k">$10,000 - $25,000</option>
-                        <option value="25k-50k">$25,000 - $50,000</option>
-                        <option value="50k-100k">$50,000 - $100,000</option>
-                        <option value="100k+">$100,000+</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">Project Vision</label>
-                    <textarea id="message" name="message" placeholder="Share your vision, goals, and specific requirements. The more details you provide, the better we can tailor our approach to exceed your expectations..." required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Launch Project</button>
-                <div class="success-message" id="successMessage">
-                    🚀 Message received! Our team will contact you within 24 hours with a tailored strategy proposal.
-                </div>
-            </form>
-        </div>
-    </section>
+      function formatValue(val) {
+        return isMetric ? formatMm(val) : formatInches(val);
+      }
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 DigitalCraft. All rights reserved. Engineered for digital supremacy.</p>
-    </footer>
+      function inchesToMm(inches) {
+        return inches * 25.4;
+      }
 
-    <script>
-        // Create futuristic particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 80; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                particlesContainer.appendChild(particle);
-            }
+      function mmToInches(mm) {
+        return mm / 25.4;
+      }
+
+      function updateSliderRanges() {
+        const cardWidth = document.getElementById('cardWidth');
+        const cardHeight = document.getElementById('cardHeight');
+        const padding = document.getElementById('padding');
+
+        if (isMetric) {
+          // Convert to mm ranges
+          cardWidth.min = inchesToMm(0.125).toString();
+          cardWidth.max = inchesToMm(10).toString();
+          cardWidth.step = inchesToMm(0.125).toString();
+          cardWidth.value = inchesToMm(parseFloat(cardWidth.value) || 6).toString();
+
+          cardHeight.min = inchesToMm(0.125).toString();
+          cardHeight.max = inchesToMm(10).toString();
+          cardHeight.step = inchesToMm(0.125).toString();
+          cardHeight.value = inchesToMm(parseFloat(cardHeight.value) || 4).toString();
+
+          padding.min = "0";
+          padding.max = inchesToMm(0.5).toString();
+          padding.step = inchesToMm(0.125).toString();
+          padding.value = inchesToMm(parseFloat(padding.value) || 0.25).toString();
+        } else {
+          // Convert to inch ranges
+          const currentCardWidth = mmToInches(parseFloat(cardWidth.value) || inchesToMm(6));
+          const currentCardHeight = mmToInches(parseFloat(cardHeight.value) || inchesToMm(4));
+          const currentPadding = mmToInches(parseFloat(padding.value) || inchesToMm(0.25));
+
+          cardWidth.min = "0.125";
+          cardWidth.max = "10";
+          cardWidth.step = "0.125";
+          cardWidth.value = currentCardWidth.toString();
+
+          cardHeight.min = "0.125";
+          cardHeight.max = "10";
+          cardHeight.step = "0.125";
+          cardHeight.value = currentCardHeight.toString();
+
+          padding.min = "0";
+          padding.max = "0.5";
+          padding.step = "0.125";
+          padding.value = currentPadding.toString();
+        }
+      }
+
+      function toggleUnits() {
+        isMetric = !isMetric;
+        
+        // Update label styling
+        const inchesLabel = document.getElementById('inchesLabel');
+        const mmLabel = document.getElementById('mmLabel');
+        
+        if (isMetric) {
+          inchesLabel.classList.remove('active');
+          mmLabel.classList.add('active');
+        } else {
+          mmLabel.classList.remove('active');
+          inchesLabel.classList.add('active');
         }
 
-        // Enhanced navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+        updateSliderRanges();
+        draw();
+      }
 
-        // Smooth scrolling with offset for fixed nav
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offsetTop = target.offsetTop - 100;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+      function getCurrentValues() {
+        const cardWidthVal = parseFloat(document.getElementById('cardWidth').value);
+        const cardHeightVal = parseFloat(document.getElementById('cardHeight').value);
+        const paddingVal = parseFloat(document.getElementById('padding').value);
 
-        // Enhanced form submission with validation
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const data = {};
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-            
-            // Simulate form submission (replace with actual endpoint)
-            console.log('Form submitted:', data);
-            
-            // Show success message with animation
-            const successMessage = document.getElementById('successMessage');
-            successMessage.classList.add('show');
-            
-            // Reset form with smooth transition
-            setTimeout(() => {
-                this.reset();
-            }, 500);
-            
-            // Hide success message after 6 seconds
-            setTimeout(() => {
-                successMessage.classList.remove('show');
-            }, 6000);
-        });
+        if (isMetric) {
+          // Convert mm to inches for calculations
+          return {
+            w: mmToInches(cardWidthVal),
+            h: mmToInches(cardHeightVal),
+            pad: mmToInches(paddingVal)
+          };
+        } else {
+          return {
+            w: cardWidthVal,
+            h: cardHeightVal,
+            pad: paddingVal
+          };
+        }
+      }
 
-        // Advanced intersection observer for scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+      function createDiamondEnvelope(svg, cardWidth, cardHeight, padding, paperSize, cornerSize) {
+        // Make SVG responsive to container width
+        const containerWidth = svg.parentElement.clientWidth;
+        const svgSize = Math.min(400, containerWidth - 40);
+        svg.setAttribute('width', svgSize);
+        svg.setAttribute('height', svgSize);
+        svg.setAttribute('viewBox', `0 0 ${svgSize} ${svgSize}`);
+        
+        const centerX = svgSize / 2;
+        const centerY = svgSize / 2;
+        
+        const ns = 'http://www.w3.org/2000/svg';
+        
+        // Calculate the diamond size - rotated orientation (45 degrees)
+        const diamondSize = Math.min(svgSize * 0.75, paperSize * 32);
+        
+        // Create the outer diamond envelope shape (NO STROKE as requested)
+        const outerDiamond = document.createElementNS(ns, 'polygon');
+        const outerHalfDiag = diamondSize / 2;
+        
+        // Rotated diamond points (45 degree rotation)
+        const outerDiamondPoints = [
+          [centerX, centerY - outerHalfDiag], // top
+          [centerX + outerHalfDiag, centerY], // right
+          [centerX, centerY + outerHalfDiag], // bottom
+          [centerX - outerHalfDiag, centerY]  // left
+        ];
+        
+        outerDiamond.setAttribute('points', outerDiamondPoints.map(p => `${p[0]},${p[1]}`).join(' '));
+        outerDiamond.setAttribute('fill', '#efdac8');
+        outerDiamond.setAttribute('fill-opacity', '0.6');
+        svg.appendChild(outerDiamond);
+
+        // Calculate card dimensions for visualization
+        const visualScale = Math.min(20, svgSize / 20);
+        const scaledCardWidth = cardWidth * visualScale;
+        const scaledCardHeight = cardHeight * visualScale;
+        const scaledPadding = padding * visualScale;
+
+        // Draw CONTINUOUS dotted lines (but stop at diamond boundaries)
+        const padTopY = centerY - (scaledCardHeight / 2) - scaledPadding;
+        const padBottomY = centerY + (scaledCardHeight / 2) + scaledPadding;
+        const padLeftX = centerX - (scaledCardWidth / 2) - scaledPadding;
+        const padRightX = centerX + (scaledCardWidth / 2) + scaledPadding;
+
+        // Calculate diamond boundary intersections for each line
+        const dashedStyle = {
+          stroke: '#7c646a',
+          'stroke-width': Math.max(1, svgSize / 200),
+          'stroke-dasharray': '5,5',
+          'stroke-opacity': '0.7'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+        // Top horizontal line - find intersections with diamond edges
+        const topY = padTopY;
+        const topLeftX = Math.max(centerX - outerHalfDiag, centerX - outerHalfDiag + Math.abs(topY - centerY));
+        const topRightX = Math.min(centerX + outerHalfDiag, centerX + outerHalfDiag - Math.abs(topY - centerY));
+        
+        if (topY > centerY - outerHalfDiag && topY < centerY + outerHalfDiag) {
+          const topLine = document.createElementNS(ns, 'line');
+          topLine.setAttribute('x1', topLeftX);
+          topLine.setAttribute('y1', topY);
+          topLine.setAttribute('x2', topRightX);
+          topLine.setAttribute('y2', topY);
+          Object.entries(dashedStyle).forEach(([k, v]) => topLine.setAttribute(k, v));
+          svg.appendChild(topLine);
+        }
 
-        // Initialize animations and interactions
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            
-            // Animate cards on scroll
-            const animatedElements = [
-                ...document.querySelectorAll('.service-card'),
-                ...document.querySelectorAll('.team-card'),
-                ...document.querySelectorAll('.project-card'),
-                ...document.querySelectorAll('.stat')
-            ];
-            
-            animatedElements.forEach((element, index) => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(50px)';
-                element.style.transition = `all 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
-                observer.observe(element);
+        // Bottom horizontal line - find intersections with diamond edges
+        const bottomY = padBottomY;
+        const bottomLeftX = Math.max(centerX - outerHalfDiag, centerX - outerHalfDiag + Math.abs(bottomY - centerY));
+        const bottomRightX = Math.min(centerX + outerHalfDiag, centerX + outerHalfDiag - Math.abs(bottomY - centerY));
+        
+        if (bottomY > centerY - outerHalfDiag && bottomY < centerY + outerHalfDiag) {
+          const bottomLine = document.createElementNS(ns, 'line');
+          bottomLine.setAttribute('x1', bottomLeftX);
+          bottomLine.setAttribute('y1', bottomY);
+          bottomLine.setAttribute('x2', bottomRightX);
+          bottomLine.setAttribute('y2', bottomY);
+          Object.entries(dashedStyle).forEach(([k, v]) => bottomLine.setAttribute(k, v));
+          svg.appendChild(bottomLine);
+        }
+
+        // Left vertical line - find intersections with diamond edges
+        const leftX = padLeftX;
+        const leftTopY = Math.max(centerY - outerHalfDiag, centerY - outerHalfDiag + Math.abs(leftX - centerX));
+        const leftBottomY = Math.min(centerY + outerHalfDiag, centerY + outerHalfDiag - Math.abs(leftX - centerX));
+        
+        if (leftX > centerX - outerHalfDiag && leftX < centerX + outerHalfDiag) {
+          const leftLine = document.createElementNS(ns, 'line');
+          leftLine.setAttribute('x1', leftX);
+          leftLine.setAttribute('y1', leftTopY);
+          leftLine.setAttribute('x2', leftX);
+          leftLine.setAttribute('y2', leftBottomY);
+          Object.entries(dashedStyle).forEach(([k, v]) => leftLine.setAttribute(k, v));
+          svg.appendChild(leftLine);
+        }
+
+        // Right vertical line - find intersections with diamond edges
+        const rightX = padRightX;
+        const rightTopY = Math.max(centerY - outerHalfDiag, centerY - outerHalfDiag + Math.abs(rightX - centerX));
+        const rightBottomY = Math.min(centerY + outerHalfDiag, centerY + outerHalfDiag - Math.abs(rightX - centerX));
+        
+        if (rightX > centerX - outerHalfDiag && rightX < centerX + outerHalfDiag) {
+          const rightLine = document.createElementNS(ns, 'line');
+          rightLine.setAttribute('x1', rightX);
+          rightLine.setAttribute('y1', rightTopY);
+          rightLine.setAttribute('x2', rightX);
+          rightLine.setAttribute('y2', rightBottomY);
+          Object.entries(dashedStyle).forEach(([k, v]) => rightLine.setAttribute(k, v));
+          svg.appendChild(rightLine);
+        }
+
+        // Draw the card with SHARP CORNERS (no rounded corners)
+        const cardRect = document.createElementNS(ns, 'rect');
+        cardRect.setAttribute('x', centerX - scaledCardWidth/2);
+        cardRect.setAttribute('y', centerY - scaledCardHeight/2);
+        cardRect.setAttribute('width', scaledCardWidth);
+        cardRect.setAttribute('height', scaledCardHeight);
+        cardRect.setAttribute('fill', '#17a2b8');
+        cardRect.setAttribute('fill-opacity', '0.9');
+        svg.appendChild(cardRect);
+
+        
+
+        // Add dimension labels for the card - make them responsive
+        const fontSize = Math.max(10, svgSize / 35);
+        
+        const widthLabel = document.createElementNS(ns, 'text');
+        widthLabel.setAttribute('x', centerX);
+        widthLabel.setAttribute('y', centerY - scaledCardHeight/2 - 10);
+        widthLabel.setAttribute('text-anchor', 'middle');
+        widthLabel.setAttribute('font-family', 'Arial, sans-serif');
+        widthLabel.setAttribute('font-size', fontSize);
+        widthLabel.setAttribute('fill', '#495057');
+        widthLabel.setAttribute('font-weight', 'bold');
+        widthLabel.textContent = formatValue(cardWidth);
+        svg.appendChild(widthLabel);
+
+        const heightLabel = document.createElementNS(ns, 'text');
+        heightLabel.setAttribute('x', centerX - scaledCardWidth/2 - 28);
+        heightLabel.setAttribute('y', centerY + 5);
+        heightLabel.setAttribute('text-anchor', 'middle');
+        heightLabel.setAttribute('font-family', 'Arial, sans-serif');
+        heightLabel.setAttribute('font-size', fontSize);
+        heightLabel.setAttribute('fill', '#495057');
+        heightLabel.setAttribute('font-weight', 'bold');
+        heightLabel.textContent = formatValue(cardHeight);
+        svg.appendChild(heightLabel);
+      }
+
+      function draw(){
+        const {w, h, pad} = getCurrentValues();
+        const wp=w+pad, hp=h+pad;
+        const dotted=(wp+hp)/Math.SQRT2, outer=dotted+1;
+
+        // Update labels
+        document.getElementById('cardWidthVal').textContent = formatValue(w);
+        document.getElementById('cardHeightVal').textContent = formatValue(h);
+        document.getElementById('paddingVal').textContent = formatValue(pad);
+        document.getElementById('paperSizeVal').textContent = formatValue(outer);
+
+        const warningDiv = document.getElementById('warningMessage');
+        let warningMsg = '';
+
+        if (outer > 12) {
+          warningMsg += `❗ Your required paper size exceeds the limits of this tool (12"). Please reduce your card size or padding.<br>`;
+        }
+
+        if (w < 2 || h < 2) {
+          warningMsg += `ℹ️ Very small envelopes may be hard to fold. Consider increasing card size or padding.`;
+        }
+
+        warningDiv.innerHTML = warningMsg;
+        warningDiv.style.display = warningMsg ? 'block' : 'none';
+
+        const svg=document.getElementById('svgCanvas');
+        while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+        // Calculate alignment and corner size using original logic
+        const W=wp*scale, H=hp*scale, OS=outer*scale;
+        const cx=OS/2, cy=OS/2, theta=Math.PI/4;
+        
+        function rot(p){ return { x:p.x*Math.cos(theta)-p.y*Math.sin(theta), y:p.x*Math.sin(theta)+p.y*Math.cos(theta) }; }
+        const pts=[{x:-W/2,y:-H/2},{x:W/2,y:-H/2},{x:W/2,y:H/2},{x:-W/2,y:H/2}]
+          .map(rot).map(p=>({x:p.x+cx,y:p.y+cy}));
+
+        let lines=[], negLine=null;
+        pts.forEach((A,i)=>{
+          const B=pts[(i+1)%4];
+          const dx=B.x-A.x, dy=B.y-A.y;
+          let ints=[];
+          if(dx!==0){
+            [0,OS].forEach(xb=>{
+              const t=(xb-A.x)/dx, y=A.y+t*dy;
+              if(y>=0&&y<=OS) ints.push({pt:{x:xb,y:y},t});
             });
+          }
+          if(dy!==0){
+            [0,OS].forEach(yb=>{
+              const t=(yb-A.y)/dy, x=A.x+t*dx;
+              if(x>=0&&x<=OS) ints.push({pt:{x:x,y:yb},t});
+            });
+          }
+          if(ints.length>=2){
+            ints.sort((a,b)=>a.t-b.t);
+            const S=ints[0].pt, E=ints[ints.length-1].pt;
+            const len=Math.hypot(E.x-S.x,E.y-S.y)/scale;
+            const slope=(E.y-S.y)/(E.x-S.x);
+            lines.push({S,E,len,slope});
+            if(slope<0) negLine={S,E};
+          }
         });
 
-        // Enhanced hover effects for interactive elements
-        document.querySelectorAll('.cta-button, .secondary-button').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-6px) scale(1.02)';
-            });
-
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
+        let align=0;
+        lines.forEach(l=>{
+          const val=Math.round((l.len-base)*8);
+          align=Math.max(align,val);
         });
+        align=Math.max(0,Math.min(60,align));
+        document.getElementById('alignmentVal').textContent = align;
 
-        // Parallax effect for hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
+        let cornerSize=0;
+        if(negLine){
+          const {S,E}=negLine;
+          const m=(E.y-S.y)/(E.x-S.x);
+          const offsetPx=0.375*scale;
+          const y0=S.y + m*(offsetPx-S.x);
+          const sizePx=y0 - offsetPx;
+          cornerSize=sizePx/scale;
+        }
+        document.getElementById('cornerSizeVal').textContent = formatValue(cornerSize);
 
-        // Dynamic glow effects
-        document.querySelectorAll('.service-card, .team-card, .project-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.classList.add('glow-red');
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.classList.remove('glow-red');
-            });
-        });
-    </script>
+        // Create diamond envelope visualization
+        createDiamondEnvelope(svg, w, h, pad, outer, cornerSize);
+      }
+
+      // Initialize unit system
+      const unitToggle = document.getElementById('unitToggle');
+      const inchesLabel = document.getElementById('inchesLabel');
+      const mmLabel = document.getElementById('mmLabel');
+      
+      // Set initial state (inches)
+      inchesLabel.classList.add('active');
+      
+      // Add event listener for unit toggle
+      unitToggle.addEventListener('change', toggleUnits);
+
+      // Add event listeners for sliders
+      ['cardWidth','cardHeight','padding'].forEach(id=>document.getElementById(id).addEventListener('input',draw));
+      
+      // Redraw on window resize to maintain responsiveness
+      window.addEventListener('resize', draw);
+      window.onload=draw;
+    })();
+  </script>
 </body>
 </html>
